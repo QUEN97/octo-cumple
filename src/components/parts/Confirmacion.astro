@@ -1,0 +1,111 @@
+<div
+  x-show="rsvp"
+  x-transition
+  class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+>
+  <div
+    class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-6 w-full max-w-md shadow-2xl text-center font-[Fredoka] relative border-4 border-white overflow-hidden"
+    @click.outside="rsvp = false"
+  >
+    <!-- Decoración temática -->
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-300/20 rounded-full"></div>
+    <div class="absolute -bottom-8 -left-8 w-24 h-24 bg-green-300/20 rounded-full"></div>
+    
+    <!-- Botón de cerrar -->
+    <button
+      @click="rsvp = false"
+      class="absolute top-3 right-3 text-blue-800 hover:text-blue-600 transition-colors"
+      aria-label="Cerrar"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Encabezado -->
+    <div class="relative z-10 mb-6">
+      <div class="bg-blue-500 border-4 border-white rounded-full p-2 inline-block mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-bold text-blue-800">
+        <span x-show="!mensajeEnviado">¡Confirma tu asistencia!</span>
+        <span x-show="mensajeEnviado" x-transition>¡Confirmación exitosa!</span>
+      </h3>
+      <p class="text-blue-600 mt-1">Para la fiesta de William</p>
+    </div>
+
+    <!-- Formulario -->
+    <div class="space-y-4 relative z-10" x-show="!mensajeEnviado" x-transition>
+      <!-- Campo Familia -->
+      <div>
+        <label for="familia" class="block text-left text-blue-800 font-medium mb-1 ml-1">Familia</label>
+        <input
+          id="familia"
+          type="text"
+          x-model="familia"
+          @input="errors.familia = false"
+          placeholder="Ej: Familia Pérez"
+          class="border-3 rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 transition-all"
+          :class="{'border-blue-300 focus:border-blue-500 focus:ring-blue-200': !errors.familia,'border-red-500 focus:border-red-500 focus:ring-red-200': errors.familia}"
+          :disabled="mensajeEnviado"
+        >
+        <p x-show="errors.familia" class="text-red-500 text-sm text-left mt-1 ml-1">
+          Por favor ingresa el nombre de la familia
+        </p>
+      </div>
+
+      <!-- Campo Total de Asistentes -->
+      <div>
+        <label for="total" class="block text-left text-blue-800 font-medium mb-1 ml-1">Total de asistentes</label>
+        <input
+          id="total"
+          type="number"
+          x-model="total"
+          @input="errors.total = false"
+          min="1"
+          max="7"
+          placeholder="Máximo 7 personas"
+          class="border-3 rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 transition-all"
+          :class="{ 'border-blue-300 focus:border-blue-500 focus:ring-blue-200': !errors.total,'border-red-500 focus:border-red-500 focus:ring-red-200': errors.total}"
+          :disabled="mensajeEnviado"
+        >
+        <p x-show="errors.total" class="text-red-500 text-sm text-left mt-1 ml-1">
+          Debe ser entre 1 y 7 personas
+        </p>
+      </div>
+
+      <button
+        @click="confirmarWhatsapp"
+        class="mt-6 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-md transition-all duration-300 w-full flex items-center justify-center gap-2"
+        :disabled="mensajeEnviado"
+        :class="{'opacity-50 cursor-not-allowed': mensajeEnviado}"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+        <span x-show="!mensajeEnviado">Enviar por WhatsApp</span>
+        <span x-show="mensajeEnviado" x-transition>¡Enviado!</span>
+      </button>
+    </div>
+
+    <!-- Mensaje de confirmación -->
+    <div x-show="mensajeEnviado" x-transition class="relative z-10">
+      <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded">
+        <p>¡Gracias por confirmar! Hemos registrado a <span class="font-bold" x-text="familia"></span> con <span class="font-bold" x-text="total"></span> asistentes.</p>
+      </div>
+      <button
+        @click="rsvp = false"
+        class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+      >
+        Cerrar
+      </button>
+    </div>
+
+    <!-- Nota al pie -->
+    <p class="text-sm text-blue-500 mt-4 relative z-10" x-show="!mensajeEnviado">
+      Serás redirigido a WhatsApp para confirmar el envío.
+    </p>
+  </div>
+</div>

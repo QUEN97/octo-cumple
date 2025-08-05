@@ -1,0 +1,38 @@
+---
+import Burbujas from "../parts/Burbujas.astro";
+import Confirmacion from "../parts/Confirmacion.astro"
+import Detalles from "../parts/Detalles.astro"
+import Mapa from "../parts/Mapa.astro"
+import Encabezado from "../parts/Encabezado.astro"
+import Logo from "../parts/Logo.astro"
+---
+
+<div
+        x-show="!intro"
+        x-transition
+        class="w-[90vw] max-w-[520px] bg-white rounded-3xl shadow-xl p-6 pt-8 relative overflow-hidden font-[Fredoka] animate-slide-up"
+    >
+        <!-- Fondo decorativo -->
+        <div class="absolute inset-0 bg-ocean-pattern bg-cover rounded-3xl z-0">
+        </div>
+
+        <!-- Burbujas animadas mejoradas -->
+        <Burbujas/>
+
+        <!-- Encabezado -->
+        <div class="relative z-10 text-center">
+            <!-- Logo Octonauts -->
+            <Logo/>
+
+            <Encabezado/>
+        </div>
+
+        <div class="relative z-10 mt-4 w-full">
+            <!-- Vista Detalles -->
+            <Detalles/>
+            <!-- Vista Mapa -->
+            <Mapa/>
+        </div>
+    </div>
+     <!-- Modal Confirmar Asistencia -->
+    <Confirmacion />

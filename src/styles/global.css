@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  animation: bubbleUp 5s infinite ease-in-out;
+}
+
+.bubble.small { width: 6px; height: 6px; }
+.bubble.medium { width: 10px; height: 10px; }
+.bubble.large { width: 14px; height: 14px; }
+
+.bubble.cyan { background: rgba(180, 245, 255, 0.4); }
+.bubble.blue { background: rgba(120, 200, 255, 0.4); }
+
+.bubble.delay-1 { animation-delay: 1s; }
+.bubble.delay-2 { animation-delay: 2s; }
+.bubble.delay-3 { animation-delay: 3s; }
+
+@keyframes bubbleUp {
+  0%   { transform: translateY(0);     opacity: 0.5; }
+  50%  { transform: translateY(-60px); opacity: 0.9; }
+  100% { transform: translateY(-120px); opacity: 0; }
+}
+/* Animaciones de color cartoon */
+@keyframes cartoonOrange {
+  0%,100% { color: #ff9e2c; }
+  50% { color: #ffd166; }
+}
+@keyframes cartoonBlue {
+  0%,100% { color: #29b6f6; }
+  50% { color: #4dd0e1; }
+}
+@keyframes cartoonPink {
+  0%,100% { color: #f06292; }
+  50% { color: #f48fb1; }
+}
+/* Brillo tipo LED cartoon */
+@keyframes cartoonGlow {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.7)); }
+}
+/* Animación burbujas */
+@keyframes bubbleFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-20px) scale(1.1); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 0.8; }
+}
+/* Animación glow Octonauts */
+@keyframes octoGlow {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)); }
+}
+/* Animación de burbujas con direcciones variadas */
+@keyframes bubbleDrift {
+  0% { transform: translate(0,0) scale(1); opacity: 0; filter: blur(0); }
+  20% { opacity: 0.8; filter: blur(0.5px); }
+  50% { transform: translate(var(--x), var(--y)) scale(1.2); opacity: 1; filter: blur(1px); }
+  80% { opacity: 0.6; filter: blur(0.5px); }
+  100% { transform: translate(calc(var(--x) * 1.5), calc(var(--y) * 1.5)) scale(0.8); opacity: 0; filter: blur(0); }
+}
+/* Glow Octonauts */
+@keyframes octoGlow {
+  0%,100% { filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes bob {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(-2deg); }
+}
+
+@font-face {
+  font-family: 'Cooper Black';
+  src: url('/font/Cooper-Black.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.octonauts-title {
+  font-family: 'Cooper Black', serif;
+  letter-spacing: 1px;
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg) scale(1.05); }
+}
+@keyframes floatBounce {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+  }
+
+   [x-show="rsvp"] {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+    /* Animación para mensajes de error */
+  [x-show] {
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  /* Estilo para inputs con error */
+  .border-red-500 {
+    border-color: #ef4444;
+  }
+  
+  .focus\:ring-red-200:focus {
+    --tw-ring-color: rgba(254, 202, 202, 0.5);
+  }
+  @keyframes bubbleRise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+}
+
+.animate-pulse-orange {
+  animation: pulseOrange 1.5s infinite;
+}
+
+@keyframes pulseOrange {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px rgba(255, 165, 0, 0));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(255, 165, 0, 0.5));
+  }
+}
+
+/* Animaciones personalizadas */
+@keyframes pulseGlow {
+  0%, 100% {
+    text-shadow: 0 0 6px #00d4ff;
+  }
+  50% {
+    text-shadow: 0 0 12px #00f2ff;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseOrange {
+  0%, 100% {
+    filter: drop-shadow(0 0 0px orange);
+  }
+  50% {
+    filter: drop-shadow(0 0 12px orange);
+  }
+}
+
+/* Clases de animación */
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out;
+}
+
+.animate-pulse-orange {
+  animation: pulseOrange 1.6s infinite ease-in-out;
+}
+
+/* Background personalizado */
+.bg-ocean-pattern {
+  background-image: url('/img/invitacion-fondo.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

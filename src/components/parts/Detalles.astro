@@ -1,0 +1,51 @@
+<div
+                x-show="!mostrarMapa"
+                x-transition
+                class="p-2 relative overflow-visible"
+            >
+                <!-- Imagen principal centrada -->
+                <div class="flex justify-center mb-3">
+                    <img
+                        src="/img/personaje-1.png"
+                        class="w-64 md:w-80 animate-[float_4s_ease-in-out_infinite]"
+                        alt="Personajes Octonautas"
+                    />
+                </div>
+
+                <h2
+                    class="text-3xl md:text-4xl font-extrabold octonauts-title mb-2 text-center animate-pulse"
+                    style="color: #FFD700; 
+           text-shadow: 2px 2px 0 #FF6B00, 
+                       -1px -1px 0 #FF6B00, 
+                       1px -1px 0 #FF6B00, 
+                       -1px 1px 0 #FF6B00;
+                            background: linear-gradient(to right, rgba(0,150,255,0.3), rgba(0,200,255,0.3));
+                            -webkit-background-clip: text;
+                            background-clip: text;
+                            padding: 4px 8px;
+                            display: inline-block;
+                            transform: rotate(-2deg);
+                            animation: wave 3s ease-in-out infinite;"
+                >
+                    ¡HABRÁ BAÑO DE PISCINA!
+                </h2>
+
+                <!-- Contenedor de botones alineados horizontalmente -->
+                <div class="flex justify-center gap-4">
+                    <!-- Botón ubicación -->
+                    <button
+                        @click="mostrarMapa = true"
+                        class="bg-cyan-500 border-4 border-white text-white font-bold px-6 py-3 rounded-full text-xs shadow-[0_3px_0_#028090] hover:translate-y-[1px] transition-all"
+                    >
+                        UBICACIÓN
+                    </button>
+
+                    <!-- Botón asistir -->
+                    <button
+                        @click="rsvp = true"
+                        class="bg-green-500 border-4 border-white text-white font-bold px-6 py-3 rounded-full text-xs shadow-[0_3px_0_#006400] hover:translate-y-[1px] transition-all"
+                    >
+                        ASISTIRÉ
+                    </button>
+                </div>
+            </div>

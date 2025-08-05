@@ -1,0 +1,135 @@
+---
+import "../styles/global.css";
+import CardPrincipal from "./parts/CardPrincipal.astro";
+import SplashScreen from "./parts/SplashScreen.astro";
+import Banderin from "./parts/Banderin.astro";
+---
+
+<div
+  x-data="{
+    intro: true,
+    mostrarMapa: false,
+    rsvp: false,
+    familia: '',
+    total: '',
+    mensajeEnviado: false,
+    audioPlaying: false,
+    audioBlocked: false, // Nuevo estado para controlar si el autoplay fue bloqueado
+    errors: {
+      familia: false,
+      total: false
+    },
+    
+    init() {
+      // Inicializar audio con configuración para autoplay
+      this.audio = new Audio('/audio/octo-theme.mp3');
+      this.audio.loop = true;
+      this.audio.muted = false; // Asegurar que no esté muteado
+      
+      // Estrategia de autoplay mejorada
+      this.setupAudio();
+      
+      // Ocultar splash screen después de 1.5 segundos
+      setTimeout(() => {
+        this.intro = false;
+      }, 2000);
+    },
+    
+    setupAudio() {
+      // Intentar reproducir inmediatamente (puede ser bloqueado)
+      this.audio.play().then(() => {
+        this.audioPlaying = true;
+        this.audioBlocked = false;
+      }).catch(e => {
+        console.log('Autoplay bloqueado:', e);
+        this.audioBlocked = true;
+        this.showAudioButton();
+      });
+      
+      // Segunda estrategia: reproducir después de interacción del usuario
+      document.addEventListener('click', this.firstInteractionHandler.bind(this), { once: true });
+    },
+    
+    firstInteractionHandler() {
+      if (!this.audioPlaying && !this.audioBlocked) {
+        this.playAudio();
+      }
+    },
+    
+    toggleAudio() {
+      if (this.audioPlaying) {
+        this.audio.pause();
+        this.audioPlaying = false;
+      } else {
+        this.playAudio();
+      }
+    },
+    
+    playAudio() {
+      this.audio.play().then(() => {
+        this.audioPlaying = true;
+        this.audioBlocked = false;
+      }).catch(e => {
+        console.log('Error al reproducir:', e);
+        this.showToast('El navegador bloqueó la reproducción. Intenta hacer clic primero en la página');
+      });
+    },
+    
+    showAudioButton() {
+      const audioBtn = document.createElement('button');
+      audioBtn.className = 'fixed top-20 right-4 z-50 bg-yellow-400 border-2 border-blue-700 text-blue-900 font-bold px-4 py-2 rounded-lg shadow-lg animate-bounce';
+      audioBtn.innerHTML = '🔊 Activar música';
+      audioBtn.onclick = () => {
+        this.playAudio();
+        audioBtn.remove();
+      };
+      document.body.appendChild(audioBtn);
+    },
+    
+    validateForm() {
+      this.errors.familia = !this.familia.trim();
+      this.errors.total = !this.total || this.total < 1 || this.total > 7;
+      return !this.errors.familia && !this.errors.total;
+    },
+    
+    confirmarWhatsapp() {
+      if (!this.validateForm()) return;
+      
+      if (this.mensajeEnviado) {
+        this.showToast('Ya has confirmado tu asistencia. ¡Gracias!');
+        return;
+      }
+      
+      const mensaje = `Hola, confirmo asistencia a la fiesta de William.\n\nFamilia: ${this.familia}\nTotal de asistentes: ${this.total}`;
+      const url = `https://wa.me/+529994971244?text=${encodeURIComponent(mensaje)}`;
+      
+      this.mensajeEnviado = true;
+      window.open(url, '_blank');
+      
+      setTimeout(() => {
+        this.rsvp = false;
+      }, 1000);
+    },
+    
+    showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+  }"
+  class="bg-gradient-to-b from-sky-300 via-cyan-200 to-blue-500 font-[Fredoka] min-h-screen flex items-center justify-center overflow-hidden relative"
+>
+    <!-- Splash screen -->
+    <SplashScreen />
+
+    <!-- Banderín -->
+    <Banderin />
+
+    <!-- Card principal -->
+    <CardPrincipal />
+</div>
