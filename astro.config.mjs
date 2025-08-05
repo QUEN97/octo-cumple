@@ -4,10 +4,15 @@ import alpine from '@astrojs/alpinejs';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import netlify from '@astrojs/netlify';
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [alpine()],
+
   vite: {
     plugins: [tailwindcss()]
-  }
+  },
+
+  adapter: netlify()
 });
